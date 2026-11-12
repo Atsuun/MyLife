@@ -145,5 +145,122 @@
   if('serviceWorker'in navigator && /^https?:$/.test(location.protocol)){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
 })();
 </script>
+<!-- MyLife v2 : Sport maison et nutrition -->
+<style>
+#mlv2-open{
+  position:fixed;bottom:90px;right:16px;z-index:30;
+  border:0;border-radius:18px;padding:14px 19px;
+  background:linear-gradient(120deg,#9a67ff,#653cce);
+  color:white;font-weight:800;box-shadow:0 5px 25px #0009;
+}
+#mlv2-dialog{
+  background:#11172a;color:white;border:1px solid #554777;
+  border-radius:20px;width:min(94vw,520px);max-height:85vh;
+  padding:20px;overflow:auto;
+}
+#mlv2-dialog::backdrop{background:#000b}
+#mlv2-dialog h2{color:#bd9bff}
+#mlv2-dialog .ml-card{
+  padding:15px;margin:12px 0;background:#202841;
+  border-radius:14px;
+}
+#mlv2-dialog .ml-btn{
+  display:inline-block;padding:10px 13px;margin:5px 3px;
+  background:#7754d8;border:0;border-radius:10px;
+  color:white;text-decoration:none;font-weight:700;
+}
+#mlv2-dialog p{line-height:1.5;font-size:13px}
+</style>
+
+<button id="mlv2-open">💪 Sport & Repas</button>
+
+<dialog id="mlv2-dialog">
+  <button id="mlv2-close" class="ml-btn">✕ Fermer</button>
+  <h2>MyLife v2 💜</h2>
+  <button class="ml-btn" id="mlv2-sport">🏋️ Sport</button>
+  <button class="ml-btn" id="mlv2-meals">🥗 Repas</button>
+  <div id="mlv2-content"></div>
+</dialog>
+
+<script>
+(() => {
+  const dialog = document.getElementById('mlv2-dialog');
+  const content = document.getElementById('mlv2-content');
+
+  const exercises = [
+    ['Pompes','3 × 6–12','pompes technique débutant'],
+    ['Squats','3 × 12–20','squat poids du corps technique'],
+    ['Fentes arrière','3 × 8–12 par jambe','fentes arrière technique'],
+    ['Pont fessier','3 × 12–20','pont fessier exercice'],
+    ['Gainage','3 × 20–40 secondes','gainage planche technique'],
+    ['Pompes inclinées','3 × 8–15','pompes inclinées technique'],
+    ['Superman','3 × 10–15','superman exercice dos']
+  ];
+
+  const meals = [
+    {
+      name:'Petit-déjeuner protéiné',
+      ingredients:'200 g de skyr, 50 g de flocons d’avoine, une banane.',
+      recipe:'Mélange le skyr et l’avoine, puis ajoute la banane.'
+    },
+    {
+      name:'Poulet et riz',
+      ingredients:'150 g de poulet, 75 g de riz cru, légumes.',
+      recipe:'Fais cuire le riz, le poulet à cœur et les légumes.'
+    },
+    {
+      name:'Omelette complète',
+      ingredients:'3 œufs, pain complet, tomates.',
+      recipe:'Prépare une omelette et accompagne-la de tartines.'
+    },
+    {
+      name:'Saumon et pommes de terre',
+      ingredients:'150 g de saumon, pommes de terre et haricots verts.',
+      recipe:'Fais cuire les pommes de terre, les légumes et le saumon.'
+    },
+    {
+      name:'Collation',
+      ingredients:'200 g de fromage blanc, une pomme et des noix.',
+      recipe:'Coupe la pomme et mélange le tout.'
+    }
+  ];
+
+  function sport(){
+    content.innerHTML = '<h2>Musculation à la maison</h2>'
+      + '<p>Programme conseillé : 3 séances par semaine, avec récupération entre les séances difficiles.</p>'
+      + exercises.map(e => `
+        <div class="ml-card">
+          <strong>${e[0]}</strong>
+          <p>${e[1]}</p>
+          <a class="ml-btn" target="_blank"
+             rel="noopener noreferrer"
+             href="https://www.youtube.com/results?search_query=${encodeURIComponent(e[2])}">
+             ▶ Voir des vidéos
+          </a>
+        </div>
+      `).join('');
+  }
+
+  function nutrition(){
+    content.innerHTML = '<h2>Mes recettes</h2>'
+      + '<p>Des idées de repas pour accompagner ta prise de muscle. Adapte les portions à tes besoins.</p>'
+      + meals.map(m => `
+        <div class="ml-card">
+          <strong>${m.name}</strong>
+          <p><b>Ingrédients :</b> ${m.ingredients}</p>
+          <p><b>Préparation :</b> ${m.recipe}</p>
+        </div>
+      `).join('');
+  }
+
+  document.getElementById('mlv2-open').onclick = () => {
+    sport();
+    dialog.showModal();
+  };
+  document.getElementById('mlv2-close').onclick = () => dialog.close();
+  document.getElementById('mlv2-sport').onclick = sport;
+  document.getElementById('mlv2-meals').onclick = nutrition;
+})();
+</script>
 </body>
 </html>
